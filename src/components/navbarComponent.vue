@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import {useRouter } from "vue-router";
+
+
+const router = useRouter();
+const navigateToHome = () => router.push({ name: 'home' });
+const navigateToUser = () => router.push({ name: 'user' });
+
 
 </script>
 
@@ -7,12 +14,12 @@
     <img class="w-full h-full object-cover absolute top-0 left-0 right-0 z-0" src="../assets/navbar-bg.svg" alt="header bg"/>
 
     <div class="flex justify-between items-center w-full px-5 z-20">
-      <button>
+      <button @click="navigateToUser">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z" fill="white"/>
         </svg>
       </button>
-      <button>
+      <button @click="navigateToHome">
         <img class="flex justify-center items-center" src="../assets/logo.svg" alt="logo"/>
       </button>
       <button>

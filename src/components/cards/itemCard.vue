@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="w-[351px] h-[327px] outline-none border-2 border-transparent bg-card rounded-[10px] pt-5 px-4 pb-4 flex flex-col justify-center items-center">
+  <div class=" w-full h-[327px] outline-none border-2 border-transparent bg-card rounded-[10px] pt-5 px-4 pb-4 flex flex-col justify-center items-center">
     <img class="mb-5 w-[100px]" src="/src/assets/food/Margherita.svg" alt="item"/>
     <div class="flex justify-between w-full items-center">
       <button>

@@ -2,6 +2,7 @@
 import mainCard from "../components/cards/mainCard.vue";
 import smallCard from "../components/cards/smallCard.vue";
 
+
 </script>
 
 <template>
