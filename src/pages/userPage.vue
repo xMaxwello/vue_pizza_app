@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import orderCard from "../components/cards/orderCard.vue";
 
+
 </script>
 
 <template>
@@ -24,7 +25,7 @@ import orderCard from "../components/cards/orderCard.vue";
     </svg>
   </div>
   <div>
-    <form class="mx-5 my-4 flex flex-col space-y-5">
+    <form class="my-4 flex flex-col space-y-5">
       <div class="flex">
         <label for="name" class="w-32 text-mainColor text-xs leading-[18px]">Name</label>
         <input type="text" name="name" id="name" class="w-full outline-none border-b-2 text-mainColor text-xs leading-[18px]"/>

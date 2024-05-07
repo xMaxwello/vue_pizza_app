@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import itemCard from "../components/cards/itemCard.vue";
 import drinkCard from "../components/cards/drinkCard.vue";
+import bottomSheet from "../components/bottomSheet/bottomSheetComponent.vue";
+
 
 </script>
 
@@ -17,4 +19,6 @@ import drinkCard from "../components/cards/drinkCard.vue";
     <strong class="mt-4 text-mainColor text-xs font-semibold text-right leading-[18px]">Gesamt (inkl. MwSt.): €</strong>
     <button class="my-4 w-full h-[40px] bg-price rounded-[20px] text-white text-sm leading-[21px] font-semibold">WEITER ZUR BEZAHLUNG</button>
   </div>
+
+  <bottomSheet/>
 </template>
