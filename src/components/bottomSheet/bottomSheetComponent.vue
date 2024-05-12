@@ -1,18 +1,26 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import cartBottomSheet from "./bottomSheetItems/cartBottomSheet.vue";
-import orderBottomSheet from "./bottomSheetItems/orderBottomSheet.vue";
 
+const isVisible = ref(false);
+
+onMounted(() => {
+  setTimeout(() => {
+    isVisible.value = true;
+  }, 10);
+});
+
+const closeBottomSheet = () => {
+  isVisible.value = false;
+};
 </script>
 
 <template>
-  <div class="h-[652px]">
-    <div class="flex flex-col px-5 h-full">
-      <div class="flex flex-col justify-between h-full px-5 bg-white border-mainColor border-2 border-b-transparent rounded-t-[10px]">
-<!--        <cartBottomSheet/>-->
-        <orderBottomSheet/>
+  <div class="fixed inset-0 z-50 flex items-end justify-center">
+    <div class="w-full max-w-md h-[652px] bg-white rounded-t-[10px] border-mainColor border-b-0 border-2 transition-transform duration-300" :class="{'translate-y-0': isVisible, 'translate-y-full': !isVisible}">
+      <div class="p-5">
+        <cartBottomSheet @close="closeBottomSheet"/>
       </div>
     </div>
   </div>
-
 </template>
-

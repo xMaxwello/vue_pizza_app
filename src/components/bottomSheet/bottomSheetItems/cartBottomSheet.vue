@@ -1,5 +1,12 @@
 <script setup lang="ts">
+const emit = defineEmits(['close']);
 
+const orderNow = () => {
+};
+
+const close = () => {
+  emit('close');
+};
 </script>
 
 <template>
@@ -20,7 +27,7 @@
   </div>
 
   <div>
-    <button class="my-4 w-full h-[40px] bg-price rounded-[20px] text-white text-sm leading-[21px] font-semibold">JETZT BESTELLEN</button>
-    <button class="mb-4 w-full h-[40px] text-mainColor text-opacity-50 rounded-[20px] text-sm leading-[21px] font-semibold">ABBRECHEN</button>
+    <button @click="orderNow" class="my-4 w-full h-[40px] bg-price rounded-[20px] text-white text-sm leading-[21px] font-semibold">JETZT BESTELLEN</button>
+    <button @click="close" class="mb-4 w-full h-[40px] text-mainColor text-opacity-50 rounded-[20px] text-sm leading-[21px] font-semibold">ABBRECHEN</button>
   </div>
 </template>
