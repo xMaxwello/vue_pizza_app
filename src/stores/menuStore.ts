@@ -1,14 +1,15 @@
 import { defineStore } from 'pinia';
 import { menuItems } from '../data/menuItems';
-import type { MenuCategory } from '../objects/foodItem';
+import type {MenuItem} from '../objects/foodItem';
 
 export const useMenuStore = defineStore('menu', {
-    state: (): { menuItems: MenuCategory[] } => ({
-        menuItems: menuItems
+    state: () => ({
+        menuItems: menuItems,
+        currentItem: null as MenuItem | null
     }),
     actions: {
-        refreshMenuItems() {
-            this.menuItems = [...menuItems];
+        setCurrentItem(item: MenuItem) {
+            this.currentItem = item;
         }
     }
 });

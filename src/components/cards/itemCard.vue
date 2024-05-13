@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import { defineProps } from 'vue';
+import {MenuItem} from "../../objects/foodItem.ts";
 
+const props = defineProps<{
+  item: MenuItem;
+}>();
 </script>
 
 <template>
   <div class=" w-full h-[327px] outline-none border-2 border-transparent bg-card rounded-[10px] pt-5 px-4 pb-4 flex flex-col justify-center items-center">
-    <img class="mb-5 w-[100px]" src="/src/assets/food/Margherita.svg" alt="item"/>
+    <img class="mb-5 w-[100px]" :src="`/${props.item.image}`" alt="item"/>
     <div class="flex justify-between w-full items-center">
       <button>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -13,7 +18,7 @@
           </g>
         </svg>
       </button>
-    <strong class="text-mainColor text-base font-semibold text-center leading-[18px]">Test</strong>
+    <strong class="text-mainColor text-base font-semibold text-center leading-[18px]">{{ props.item.name }}</strong>
       <button>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.5">
@@ -22,7 +27,7 @@
         </svg>
       </button>
     </div>
-    <strong class="mt-3 text-price text-center leading-6">Test</strong>
+    <strong class="mt-3 text-price text-center leading-6">{{ props.item.price }}€</strong>
     <div class="mt-3 flex space-x-4 justify-center items-center">
       <button>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

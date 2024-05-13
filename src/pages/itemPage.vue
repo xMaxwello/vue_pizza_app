@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import {computed, ref} from 'vue';
 import itemCard from "../components/cards/itemCard.vue";
 import drinkCard from "../components/cards/drinkCard.vue";
 import bottomSheet from "../components/bottomSheet/bottomSheetComponent.vue";
 import {useMenuStore} from "../stores/menuStore.ts";
+import {useRoute} from "vue-router";
 
 const menuStore = useMenuStore();
+const route = useRoute();
+const item = computed(() => {
+  const slug = route.params.slug; // Using the dynamic segment
+  return menuStore.menuItems.flatMap(category => category.items)
+      .find(item => item.url.includes(slug));
+});
+
 const drinks = menuStore.menuItems.find(category => category.category === "Drinks")?.items;
 
 const showBottomSheet = ref(false);
@@ -17,8 +25,8 @@ const handlePaymentClick = () => {
 
 <template>
   <div class="flex flex-col px-5">
-    <div class="my-4 flex overflow-y-auto scrollbar-none">
-      <itemCard class="flex-none"/>
+    <div v-if="item" class="my-4 flex overflow-y-auto scrollbar-none">
+      <itemCard :item="item" class="flex-none"/>
     </div>
     <h2 class="ml-5 mt-5 text-mainColor text-xs font-semibold">Getränke</h2>
     <div class="my-4 flex space-x-3 overflow-y-auto scrollbar-none">
