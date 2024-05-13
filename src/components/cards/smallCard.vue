@@ -5,10 +5,11 @@ const router = useRouter();
 
 const props = defineProps<{
   item: MenuItem;
+  category: string;
 }>();
 
 const navigateToItem = () => {
-  router.push({ name: 'item', params: { slug: props.item.url } });
+  router.push({ path: `/${props.category.toLowerCase()}/${props.item.url}` });
 };
 </script>
 

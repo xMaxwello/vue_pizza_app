@@ -11,7 +11,7 @@ const routes = [
     },
 
     {
-        'path': '/item/:slug',
+        'path': '/:category/:slug',
         'name': 'item',
         'component': itemPage,
         props: true,

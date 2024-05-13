@@ -5,15 +5,23 @@ import drinkCard from "../components/cards/drinkCard.vue";
 import bottomSheet from "../components/bottomSheet/bottomSheetComponent.vue";
 import {useMenuStore} from "../stores/menuStore.ts";
 import {useRoute} from "vue-router";
+import router from "../router";
+
 
 const menuStore = useMenuStore();
 const route = useRoute();
+
 const item = computed(() => {
-  const slug = route.params.slug; // Using the dynamic segment
+  const slug = route.params.slug;
   return menuStore.menuItems.flatMap(category => category.items)
-      .find(item => item.url.includes(slug));
+      .find(item => item.url.includes(<string>slug));
 });
 
+const props = defineProps<{
+  category: string;
+}>();
+
+const navigateToHome = () => router.push({ name: 'home' });
 const drinks = menuStore.menuItems.find(category => category.category === "Drinks")?.items;
 
 const showBottomSheet = ref(false);
@@ -25,10 +33,21 @@ const handlePaymentClick = () => {
 
 <template>
   <div class="flex flex-col px-5">
+    <div class="pt-4 flex justify-between">
+      <button @click="navigateToHome" class="flex flex-row">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g opacity="0.5">
+            <path d="M11.67 3.86998L9.9 2.09998L0 12L9.9 21.9L11.67 20.13L3.54 12L11.67 3.86998Z" fill="#001427"/>
+          </g>
+        </svg>
+        Zurück
+      </button>
+      <span>{{ props.category.charAt(0).toUpperCase() + props.category.slice(1) }}</span>
+    </div>
     <div v-if="item" class="my-4 flex overflow-y-auto scrollbar-none">
       <itemCard :item="item" class="flex-none"/>
     </div>
-    <h2 class="ml-5 mt-5 text-mainColor text-xs font-semibold">Getränke</h2>
+    <h2 class="mt-5 text-mainColor text-xs font-semibold">Getränke</h2>
     <div class="my-4 flex space-x-3 overflow-y-auto scrollbar-none">
       <drinkCard v-for="item in drinks" :key="item.id" :item="item" class="flex-none"/>
     </div>
