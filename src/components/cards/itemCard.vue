@@ -86,7 +86,8 @@ const displayPrice = computed(() => {
       </button>
     </div>
     <div class="flex justify-center items-center mt-10 font-semibold text-xs leading-[18px] space-x-10">
-      <button v-for="size in sizes" :key="size" @click="selectedSize = size" :class="{'font-bold text-price': selectedSize === size}">
+      <button v-for="size in sizes" :key="size" :class="`transition-opacity duration-300 ${selectedSize === size ? 'opacity-100' : 'opacity-50'}`"
+          @click="selectedSize = size" class="text-mainColor">
         {{ size.charAt(0).toUpperCase() + size.slice(1) }}
       </button>
     </div>
