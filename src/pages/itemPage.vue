@@ -7,14 +7,18 @@ import {useMenuStore} from "../stores/menuStore.ts";
 import {useRoute} from "vue-router";
 import router from "../router";
 
-
-const menuStore = useMenuStore();
 const route = useRoute();
+const menuStore = useMenuStore();
 
-const item = computed(() => {
+const items = computed(() => {
+  const slug = route.params.slug; // assuming slug is part of the URL
+  const category = menuStore.menuItems.find(cat => cat.items.some(item => item.url === slug));
+  return category ? category.items : [];
+});
+
+const initialIndex = computed(() => {
   const slug = route.params.slug;
-  return menuStore.menuItems.flatMap(category => category.items)
-      .find(item => item.url.includes(<string>slug));
+  return items.value.findIndex(item => item.url === slug);
 });
 
 const props = defineProps<{
@@ -44,8 +48,8 @@ const handlePaymentClick = () => {
       </button>
       <span>{{ props.category.charAt(0).toUpperCase() + props.category.slice(1) }}</span>
     </div>
-    <div v-if="item" class="my-4 flex overflow-y-auto scrollbar-none">
-      <itemCard :item="item" class="flex-none"/>
+    <div class="my-4 flex overflow-y-auto scrollbar-none">
+      <itemCard :items="items" :initialIndex="initialIndex" class="flex-none"/>
     </div>
     <h2 class="mt-5 text-mainColor text-xs font-semibold">Getränke</h2>
     <div class="my-4 flex space-x-3 overflow-y-auto scrollbar-none">
