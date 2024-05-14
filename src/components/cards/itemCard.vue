@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, defineProps, ref, watch} from 'vue';
-import {MenuItem} from "../../objects/foodItem.ts";
+import {MenuItem, Size} from "../../objects/foodItem.ts";
 import router from "../../router";
 
 const props = defineProps<{
@@ -9,7 +9,6 @@ const props = defineProps<{
 }>();
 
 const currentIndex = ref(props.initialIndex);
-
 const currentItem = computed(() => props.items[currentIndex.value]);
 
 const navigateItem = (step: number) => {
@@ -34,6 +33,16 @@ const increment = () => {
 const decrement = () => {
   if (counter.value > 1) counter.value--;
 };
+
+const selectedSize = ref<Size>('medium');
+const sizes: Size[] = ['small', 'medium', 'large'];
+
+const displayPrice = computed(() => {
+  if (currentItem.value && currentItem.value.prices) {
+    return currentItem.value.prices[selectedSize.value];
+  }
+  return currentItem.value?.price;
+});
 </script>
 
 <template>
@@ -56,7 +65,7 @@ const decrement = () => {
         </svg>
       </button>
     </div>
-    <strong class="mt-3 text-price text-center leading-6">{{ currentItem.price }}€</strong>
+    <strong class="mt-3 text-price text-center leading-6">{{ displayPrice }}€</strong>
     <div class="mt-3 flex space-x-4 justify-center items-center">
       <button @click="decrement">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,9 +86,9 @@ const decrement = () => {
       </button>
     </div>
     <div class="flex justify-center items-center mt-10 font-semibold text-xs leading-[18px] space-x-10">
-      <button>Klein</button>
-      <button>Mittel</button>
-      <button>Groß</button>
+      <button v-for="size in sizes" :key="size" @click="selectedSize = size" :class="{'font-bold text-price': selectedSize === size}">
+        {{ size.charAt(0).toUpperCase() + size.slice(1) }}
+      </button>
     </div>
   </div>
 </template>
