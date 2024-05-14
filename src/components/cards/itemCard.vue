@@ -24,6 +24,16 @@ watch(currentItem, (newItem) => {
     router.push({ name: 'item', params: { slug: newItem.url } });
   }
 });
+
+const counter = ref(1);
+
+const increment = () => {
+  if (counter.value < 10) counter.value++;
+};
+
+const decrement = () => {
+  if (counter.value > 1) counter.value--;
+};
 </script>
 
 <template>
@@ -48,7 +58,7 @@ watch(currentItem, (newItem) => {
     </div>
     <strong class="mt-3 text-price text-center leading-6">{{ currentItem.price }}€</strong>
     <div class="mt-3 flex space-x-4 justify-center items-center">
-      <button>
+      <button @click="decrement">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.5">
             <path d="M19 12.998H5V10.998H19V12.998Z" fill="#001427"/>
@@ -56,9 +66,9 @@ watch(currentItem, (newItem) => {
         </svg>
       </button>
       <div class="w-[30px] h-[30px] flex justify-center items-center outline-none border-2 border-gray-400 rounded-[20px]">
-        <strong class="text-mainColor text-sm font-semibold text-center leading-[21px]">1</strong>
+        <strong class="text-mainColor text-sm font-semibold text-center leading-[21px]">{{ counter }}</strong>
       </div>
-      <button>
+      <button @click="increment">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.5">
             <path d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.99799H13V10.998H19V12.998Z" fill="#001427"/>
