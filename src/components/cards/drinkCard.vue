@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import type { MenuItem } from '../../objects/foodItem';
-import {ref} from "vue";
+import {defineProps, ref} from "vue";
 
 const props = defineProps<{
   item: MenuItem;
 }>();
 
 const isClicked = ref(false);
+const emit = defineEmits(['updateDrinkPrice']);
 
 const toggleIcon = () => {
   isClicked.value = !isClicked.value;
+  if (props.item.price) {
+    const priceValue = parseFloat(props.item.price.replace(',', '.'));
+    emit('updateDrinkPrice', { price: priceValue, add: isClicked.value });
+  }
 };
 
 </script>

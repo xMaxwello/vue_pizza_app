@@ -10,6 +10,7 @@ const props = defineProps<{
 
 const currentIndex = ref(props.initialIndex);
 const currentItem = computed(() => props.items[currentIndex.value]);
+const emit = defineEmits(['updateItemPrice']);
 
 const navigateItem = (step: number) => {
   const newIndex = currentIndex.value + step;
@@ -38,11 +39,21 @@ const selectedSize = ref<Size>('medium');
 const sizes: Size[] = ['small', 'medium', 'large'];
 
 const displayPrice = computed(() => {
-  if (currentItem.value && currentItem.value.prices) {
-    return currentItem.value.prices[selectedSize.value];
-  }
-  return currentItem.value?.price;
+  const price = currentItem.value && currentItem.value.prices ? currentItem.value.prices[selectedSize.value] : currentItem.value?.price;
+  return price ? price.replace('.', ',') : 'N/A';
 });
+
+watch([currentItem, selectedSize, counter], () => {
+  const item = currentItem.value;
+  if (item) {
+    const basePrice = item.prices ? item.prices[selectedSize.value] : item.price;
+    if (basePrice) {
+      const numericPrice = parseFloat(basePrice.replace(',', '.'));
+      emit('updateItemPrice', { price: numericPrice, count: counter.value });
+      console.log('Emitting price:', numericPrice, 'Count:', counter.value);
+    }
+  }
+}, { immediate: true });
 </script>
 
 <template>
