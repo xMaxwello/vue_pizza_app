@@ -12,6 +12,10 @@ const currentIndex = ref(props.initialIndex);
 const currentItem = computed(() => props.items[currentIndex.value]);
 const emit = defineEmits(['updateItemPrice']);
 
+
+const isAtStart = computed(() => currentIndex.value === 0);
+const isAtEnd = computed(() => currentIndex.value === props.items.length - 1);
+
 const navigateItem = (step: number) => {
   const newIndex = currentIndex.value + step;
   if (newIndex >= 0 && newIndex < props.items.length) {
@@ -58,9 +62,9 @@ watch([currentItem, selectedSize, counter], () => {
 
 <template>
   <div class=" w-full h-[327px] outline-none border-2 border-transparent bg-card rounded-[10px] pt-5 px-4 pb-4 flex flex-col justify-center items-center">
-    <img class="mb-5 w-[100px]" :src="`/${currentItem.image}`" alt="item"/>
+    <img class="mb-5 w-[100px] h-[100px]" :src="`/${currentItem.image}`" alt="item"/>
     <div class="flex justify-between w-full items-center">
-      <button @click="() => navigateItem(-1)">
+      <button :class="{ 'opacity-0': isAtStart }" @click="() => navigateItem(-1)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.5">
             <path d="M11.67 3.86998L9.9 2.09998L0 12L9.9 21.9L11.67 20.13L3.54 12L11.67 3.86998Z" fill="#001427"/>
@@ -68,7 +72,7 @@ watch([currentItem, selectedSize, counter], () => {
         </svg>
       </button>
     <strong class="text-mainColor text-base font-semibold text-center leading-[18px]">{{ currentItem.name }}</strong>
-      <button @click="() => navigateItem(1)">
+      <button :class="{ 'opacity-0': isAtEnd }" @click="() => navigateItem(1)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.5">
             <path d="M12.33 20.13L14.1 21.9L24 12L14.1 2.10002L12.33 3.87002L20.46 12L12.33 20.13Z" fill="#001427"/>
