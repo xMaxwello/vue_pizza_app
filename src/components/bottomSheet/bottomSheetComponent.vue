@@ -1,25 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import cartBottomSheet from "./bottomSheetItems/cartBottomSheet.vue";
+import {useBottomSheetStore} from "../../stores/bottomSheetStore.ts";
 
-const isVisible = ref(false);
-
-onMounted(() => {
-  setTimeout(() => {
-    isVisible.value = true;
-  }, 10);
-});
-
-const closeBottomSheet = () => {
-  isVisible.value = false;
-};
+const store = useBottomSheetStore();
 </script>
 
 <template>
-  <div class="fixed inset-0 z-50 flex items-end justify-center">
-    <div class="w-full max-w-md h-[652px] bg-white rounded-t-[10px] border-mainColor border-b-0 border-2 transition-transform duration-300" :class="{'translate-y-0': isVisible, 'translate-y-full': !isVisible}">
+  <div v-if="store.isVisible" class="fixed inset-0 z-50 flex items-end justify-center">
+    <div class="w-full max-w-md h-[652px] bg-white rounded-t-[10px] border-mainColor border-b-0 border-2">
       <div class="p-5">
-        <cartBottomSheet @close="closeBottomSheet"/>
+        <component :is="store.contentComponent" @close="store.close"/>
       </div>
     </div>
   </div>
