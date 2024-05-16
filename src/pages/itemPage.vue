@@ -6,6 +6,8 @@ import bottomSheet from "../components/bottomSheet/bottomSheetComponent.vue";
 import {useMenuStore} from "../stores/menuStore.ts";
 import {useRoute} from "vue-router";
 import router from "../router";
+import {useCartStore} from "../stores/cartStore.ts";
+import CartBottomSheet from "../components/bottomSheet/bottomSheetItems/cartBottomSheet.vue";
 
 const route = useRoute();
 const menuStore = useMenuStore();
@@ -30,8 +32,37 @@ const drinks = menuStore.menuItems.find(category => category.category === "Drink
 
 const showBottomSheet = ref(false);
 
+const cartStore = useCartStore();
+
+const selectedSize = ref('medium'); // Default size
+const counter = ref(1); // Default quantity
+
+
 const handlePaymentClick = () => {
-  showBottomSheet.value = true;
+  if (initialIndex.value >= 0 && items.value[initialIndex.value]) {
+    const itemToAdd = items.value[initialIndex.value];
+    let price = itemToAdd.price ? parseFloat(itemToAdd.price.replace(',', '.')) : 0;
+
+    if (itemToAdd.prices && selectedSize.value in itemToAdd.prices) {
+      const sizePrice = itemToAdd.prices[selectedSize.value];
+      price = parseFloat(sizePrice.replace(',', '.'));
+    }
+
+    if (!isNaN(price)) {
+      cartStore.addToCart({
+        id: itemToAdd.id,
+        name: itemToAdd.name,
+        price,
+        quantity: counter.value,
+        image: itemToAdd.image
+      });
+      showBottomSheet.value = true;
+    } else {
+      console.error('Price calculation error:', price);
+    }
+  } else {
+    console.error('Invalid item or index:', initialIndex.value);
+  }
 };
 
 const totalItemPrice = ref(0);
@@ -40,7 +71,6 @@ const totalDrinkPrice = ref(0);
 const handleItemPriceUpdate = ({ price, count }) => {
   totalItemPrice.value = price * count;
 };
-
 
 
 const handleDrinkPriceUpdate = ({ price, add }) => {

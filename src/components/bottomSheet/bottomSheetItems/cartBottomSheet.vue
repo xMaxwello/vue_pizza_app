@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useCartStore } from '../../../stores/cartStore.ts';
+
+const cartStore = useCartStore();
 const emit = defineEmits(['close']);
 
 const orderNow = () => {
@@ -11,18 +14,26 @@ const close = () => {
 
 <template>
   <div>
+    <div v-for="item in cartStore.items" :key="item.id" class="flex justify-between">
+      <img :src="item.image" alt="product image" class="w-16 h-16 object-cover rounded">
+      <div>
+        <div>{{ item.name }}</div>
+        <div>{{ item.quantity }} x {{ item.price.toFixed(2) }}€</div>
+      </div>
+      <button @click="cartStore.removeFromCart(item.id)">Remove</button>
+    </div>
     <div class="flex justify-between">
       <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">Gesamtsumme</strong>
-      <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">7,90€</strong>
+      <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">{{ cartStore.subtotal.toFixed(2) }}€</strong>
     </div>
     <div class="flex justify-between">
       <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">MwSt.</strong>
-      <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">1,50€</strong>
+      <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">{{ cartStore.tax.toFixed(2) }}€</strong>
     </div>
     <div class="mt-4 border-b-2 border-b-gray-400 border-opacity-70"></div>
     <div class="flex justify-between">
       <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">Total</strong>
-      <strong class="mt-4 text-mainColor text-base font-semibold text-right leading-[18px]">9,40€</strong>
+      <strong class="mt-4 text-mainColor text-base font-semibold text-right leading-[18px]">{{ cartStore.total.toFixed(2) }}€</strong>
     </div>
   </div>
 
