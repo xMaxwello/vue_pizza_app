@@ -3,6 +3,10 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backdropFilter: {
+        'none': 'none',
+        'blur': 'blur(20px)'
+      },
       translate: ['responsive', 'hover', 'focus', 'group-hover', 'active'],
       fontFamily: {
         'poppins': 'Poppins, sans-serif',
@@ -14,6 +18,8 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-filters')
+  ],
 }
 

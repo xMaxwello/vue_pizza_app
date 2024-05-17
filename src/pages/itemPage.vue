@@ -2,10 +2,11 @@
 import {computed, ref} from 'vue';
 import itemCard from "../components/cards/itemCard.vue";
 import drinkCard from "../components/cards/drinkCard.vue";
-import bottomSheet from "../components/bottomSheet/bottomSheetComponent.vue";
 import {useMenuStore} from "../stores/menuStore.ts";
 import {useRoute} from "vue-router";
 import router from "../router";
+import CartBottomSheet from "../components/bottomSheet/bottomSheetItems/cartBottomSheet.vue";
+import {useBottomSheetStore} from "../stores/bottomSheetStore.ts";
 
 const route = useRoute();
 const menuStore = useMenuStore();
@@ -28,10 +29,10 @@ const props = defineProps<{
 const navigateToHome = () => router.push({ name: 'home' });
 const drinks = menuStore.menuItems.find(category => category.category === "Drinks")?.items;
 
-const showBottomSheet = ref(false);
+const store = useBottomSheetStore();
 
 const handlePaymentClick = () => {
-  showBottomSheet.value = true;
+  store.open(CartBottomSheet);
 };
 
 const totalItemPrice = ref(0);
@@ -81,6 +82,5 @@ const totalPrice = computed(() => {
     <div class="mt-4 border-b-2 border-b-gray-400 border-opacity-50"></div>
     <strong class="mt-4 text-mainColor text-xs font-semibold text-right leading-[18px]">Gesamt (inkl. MwSt.): {{ totalPrice.toFixed(2) }}€</strong>
     <button @click="handlePaymentClick" class="my-4 w-full h-[40px] bg-price rounded-[20px] text-white text-sm leading-[21px] font-semibold">ZUM WARENKORB HINZUFÜGEN</button>
-    <bottomSheet v-if="showBottomSheet" :onClose="() => showBottomSheet = false" />
   </div>
 </template>
