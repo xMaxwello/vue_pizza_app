@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { MenuItem } from '../../objects/foodItem';
-import {defineProps, ref} from "vue";
+import {defineProps, ref, watch} from "vue";
 
 const props = defineProps<{
   item: MenuItem;
 }>();
 
 const isClicked = ref(false);
-const emit = defineEmits(['updateDrinkPrice']);
+const emit = defineEmits(['updateDrinkPrice', 'drinkDetails']);
 
 const toggleIcon = () => {
   isClicked.value = !isClicked.value;
@@ -17,6 +17,21 @@ const toggleIcon = () => {
   }
 };
 
+const emitDrinkDetails = () => {
+  const item = props.item;
+  if (item && item.price) {
+    const price = parseFloat(item.price.replace(',', '.'));
+    emit('drinkDetails', {
+      id: item.id,
+      name: item.name,
+      price,
+      quantity: 1,
+      image: item.image
+    });
+  }
+};
+
+watch(isClicked, emitDrinkDetails);
 </script>
 
 <template>

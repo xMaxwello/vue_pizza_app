@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const currentIndex = ref(props.initialIndex);
 const currentItem = computed(() => props.items[currentIndex.value]);
-const emit = defineEmits(['updateItemPrice']);
+const emit = defineEmits(['updateItemPrice', 'itemDetails']);
 
 
 const isAtStart = computed(() => currentIndex.value === 0);
@@ -58,6 +58,23 @@ watch([currentItem, selectedSize, counter], () => {
     }
   }
 }, { immediate: true });
+
+const emitItemDetails = () => {
+  const item = currentItem.value;
+  if (item) {
+    const price = item.prices ? parseFloat(item.prices[selectedSize.value].replace(',', '.')) : parseFloat(item.price.replace(',', '.'));
+    emit('itemDetails', {
+      id: item.id,
+      name: item.name,
+      price,
+      quantity: counter.value,
+      size: selectedSize.value,
+      image: item.image
+    });
+  }
+};
+
+watch([currentItem, selectedSize, counter], emitItemDetails, { immediate: true });
 </script>
 
 <template>

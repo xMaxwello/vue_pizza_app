@@ -7,9 +7,11 @@ import {useRoute} from "vue-router";
 import router from "../router";
 import CartBottomSheet from "../components/bottomSheet/bottomSheetItems/cartBottomSheet.vue";
 import {useBottomSheetStore} from "../stores/bottomSheetStore.ts";
+import {useCartStore} from "../stores/cartStore.ts";
 
 const route = useRoute();
 const menuStore = useMenuStore();
+const cartStore = useCartStore();
 
 const items = computed(() => {
   const slug = route.params.slug;
@@ -29,10 +31,28 @@ const props = defineProps<{
 const navigateToHome = () => router.push({ name: 'home' });
 const drinks = menuStore.menuItems.find(category => category.category === "Drinks")?.items;
 
-const store = useBottomSheetStore();
+const bottomSheet = useBottomSheetStore();
 
-const handlePaymentClick = () => {
-  store.open(CartBottomSheet);
+// const handlePaymentClick = () => {
+//   selectedItems.value.forEach(item => {
+//     cartStore.addToCart(item);
+//   });
+//   selectedItems.value = [];
+//   bottomSheet.open(CartBottomSheet);
+// };
+
+const addItemToCart = () => {
+  const itemToAdd = {
+    id: 1,
+    name: "Pizza Margherita",
+    price: 7.5,
+    quantity: 1,
+    size: "medium",
+    image: "pizza-image.jpg"
+  };
+
+  cartStore.addToCart(itemToAdd);
+  bottomSheet.open(CartBottomSheet);
 };
 
 const totalItemPrice = ref(0);
@@ -41,8 +61,6 @@ const totalDrinkPrice = ref(0);
 const handleItemPriceUpdate = ({ price, count }) => {
   totalItemPrice.value = price * count;
 };
-
-
 
 const handleDrinkPriceUpdate = ({ price, add }) => {
   if (add) {
@@ -56,6 +74,26 @@ const totalPrice = computed(() => {
   console.log('Recalculating total:', totalItemPrice.value, totalDrinkPrice.value);
   return totalItemPrice.value + totalDrinkPrice.value;
 });
+
+const selectedItems = ref([]);
+
+// const addItemToSelection = (itemDetails) => {
+//   const existingItem = selectedItems.value.find(item => item.id === itemDetails.id && item.size === itemDetails.size);
+//   if (existingItem) {
+//     existingItem.quantity = itemDetails.quantity;
+//   } else {
+//     selectedItems.value.push(itemDetails);
+//   }
+// };
+//
+// const addDrinkToSelection = (drinkDetails) => {
+//   const existingDrink = selectedItems.value.find(drink => drink.id === drinkDetails.id);
+//   if (existingDrink) {
+//     existingDrink.quantity += 1;
+//   } else {
+//     selectedItems.value.push(drinkDetails);
+//   }
+// };
 
 </script>
 
@@ -81,6 +119,6 @@ const totalPrice = computed(() => {
     </div>
     <div class="mt-4 border-b-2 border-b-gray-400 border-opacity-50"></div>
     <strong class="mt-4 text-mainColor text-xs font-semibold text-right leading-[18px]">Gesamt (inkl. MwSt.): {{ totalPrice.toFixed(2) }}€</strong>
-    <button @click="handlePaymentClick" class="my-4 w-full h-[40px] bg-price rounded-[20px] text-white text-sm leading-[21px] font-semibold">ZUM WARENKORB HINZUFÜGEN</button>
+    <button @click="addItemToCart()" class="my-4 w-full h-[40px] bg-price rounded-[20px] text-white text-sm leading-[21px] font-semibold">ZUM WARENKORB HINZUFÜGEN</button>
   </div>
 </template>
