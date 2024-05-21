@@ -21,7 +21,8 @@ const emitDrinkDetails = () => {
   const item = props.item;
   if (item && item.price) {
     const price = parseFloat(item.price.replace(',', '.'));
-    emit('drinkDetails', {
+    console.log('Emitting drink details for:', item.name);
+    emit('selectDrink', {
       id: item.id,
       name: item.name,
       price,

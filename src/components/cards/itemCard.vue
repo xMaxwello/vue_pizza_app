@@ -63,7 +63,8 @@ const emitItemDetails = () => {
   const item = currentItem.value;
   if (item) {
     const price = item.prices ? parseFloat(item.prices[selectedSize.value].replace(',', '.')) : parseFloat(item.price.replace(',', '.'));
-    emit('itemDetails', {
+    console.log('Emitting item details for:', item.name);
+    emit('selectItem', {
       id: item.id,
       name: item.name,
       price,
