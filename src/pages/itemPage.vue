@@ -48,7 +48,7 @@ const addItemToCart = () => {
     price: 7.5,
     quantity: 1,
     size: "medium",
-    image: "pizza-image.jpg"
+    image: "src/assets/food/Margherita.svg"
   };
 
   cartStore.addToCart(itemToAdd);

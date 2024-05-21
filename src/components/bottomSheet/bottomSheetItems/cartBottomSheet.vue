@@ -3,14 +3,20 @@ import {computed, defineEmits} from 'vue';
 import { useCartStore } from '../../../stores/cartStore.ts';
 import OrderBottomSheet from "./orderBottomSheet.vue";
 import {useBottomSheetStore} from "../../../stores/bottomSheetStore.ts";
+import {useOrderStore} from "../../../stores/orderStore.ts";
 
 const emit = defineEmits(['close']);
 const cartStore = useCartStore();
 const bottomSheet = useBottomSheetStore();
+const orderStore = useOrderStore();
+
 
 const orderNow = () => {
-  cartStore.clearCart();
-  bottomSheet.open(OrderBottomSheet);
+  if (cartStore.items.length > 0) {
+    orderStore.addOrder([...cartStore.items], cartStore.total);
+    cartStore.clearCart();
+    bottomSheet.open(OrderBottomSheet);
+  }
 };
 
 const close = () => {
@@ -20,6 +26,8 @@ const close = () => {
 const tax = computed(() => {
   return cartStore.subtotal * 0.19;
 });
+
+///TODO: Button grau anzeigen lassen wenn nichts im cartStore gespeichert wird
 </script>
 
 <template>
