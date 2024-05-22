@@ -5,6 +5,8 @@ export interface MenuItem {
     price?: string;
     prices?: Prices;
     url?: string;
+    quantity?: number;
+    size?: string;
 }
 
 export interface MenuCategory {

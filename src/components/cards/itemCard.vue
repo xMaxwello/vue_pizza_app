@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const currentIndex = ref(props.initialIndex);
 const currentItem = computed(() => props.items[currentIndex.value]);
-const emit = defineEmits(['updateItemPrice', 'itemDetails']);
+const emit = defineEmits(['updateItemPrice', 'selectItem']);
 
 
 const isAtStart = computed(() => currentIndex.value === 0);

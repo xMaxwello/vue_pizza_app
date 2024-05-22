@@ -28,6 +28,8 @@ const tax = computed(() => {
 });
 
 ///TODO: Button grau anzeigen lassen wenn nichts im cartStore gespeichert wird
+///TODO: Items werden direkt in den Cart hinzugefügt, auch bei auswahl der Size und beim switchen
+///TODO: Layout verbessern in cartBottomSheet und orderCard
 </script>
 
 <template>

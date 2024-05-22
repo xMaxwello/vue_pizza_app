@@ -28,7 +28,12 @@ export const useCartStore = defineStore('cart', {
             }
         },
         clearCart() {
-            this.items = []; //Provisorisch, items müssen in einem orderStore gespeichert werden
+            this.items = [];
+        },
+        reorder(items: cartItem[]) {
+            items.forEach(item => {
+                this.addToCart(item);
+            });
         },
     }
 });
