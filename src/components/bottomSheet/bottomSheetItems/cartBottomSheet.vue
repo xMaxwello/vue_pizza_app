@@ -27,13 +27,36 @@ const tax = computed(() => {
   return cartStore.subtotal * 0.19;
 });
 
+const removeItem = (id, size) => {
+  cartStore.removeItem(id, size);
+};
+
 ///TODO: Button grau anzeigen lassen wenn nichts im cartStore gespeichert wird
 ///TODO: Items werden direkt in den Cart hinzugefügt, auch bei auswahl der Size und beim switchen
-///TODO: Layout verbessern in cartBottomSheet und orderCard
 </script>
 
 <template>
   <div class="flex flex-col justify-between h-[652px]">
+
+    <div class="flex flex-col justify-start">
+      <div class="grid grid-cols-4 gap-4">
+        <div v-for="item in cartStore.items" :key="item.id">
+          <div class="flex flex-col items-end">
+            <button @click="removeItem(item.id, item.size)" class="flex justify-center items-center h-[14px] w-[14px] bg-redDelete rounded-full">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.5 3.205L8.795 2.5L6 5.295L3.205 2.5L2.5 3.205L5.295 6L2.5 8.795L3.205 9.5L6 6.705L8.795 9.5L9.5 8.795L6.705 6L9.5 3.205Z" fill="white"/>
+              </svg>
+            </button>
+          </div>
+          <div class="flex flex-col items-center justify-end">
+            <img :src="`/${item.image}`" alt="food" class="h-[50px] mb-2 object-cover">
+            <div class="text-center text-mainColor text-opacity-50 text-xs font-semibold">
+              <p>{{ item.quantity }}x {{ item.size }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div>
       <div class="flex justify-between">

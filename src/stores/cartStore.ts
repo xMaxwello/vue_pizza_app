@@ -19,12 +19,13 @@ export const useCartStore = defineStore('cart', {
             }
         },
         removeItem(id: number, size: string) {
-            this.items = this.items.filter(item => item.id !== id || item.size !== size);
-        },
-        updateQuantity(id: number, size: string, quantity: number) {
-            const item = this.items.find(it => it.id === id && it.size === size);
-            if (item) {
-                item.quantity = quantity;
+            const itemIndex = this.items.findIndex(item => item.id === id && item.size === size);
+            if (itemIndex !== -1) {
+                if (this.items[itemIndex].quantity > 1) {
+                    this.items[itemIndex].quantity -= 1;
+                } else {
+                    this.items.splice(itemIndex, 1);
+                }
             }
         },
         clearCart() {

@@ -24,10 +24,9 @@ function reorderItems(items) {
     <div class="flex flex-col justify-start mx-4">
       <div class="grid grid-cols-4 gap-4">
         <div v-for="item in order.items" :key="item.id" class="flex flex-col items-center justify-end h-full">
-          <img :src="item.image" alt="food" class="h-15 w-15 mb-2 object-cover">
+          <img :src="item.image" alt="food" class="h-[50px] mb-2">
           <div class="text-center text-mainColor text-opacity-50 text-xs font-semibold">
-            <p>{{ item.quantity }}x</p>
-            <p>{{ item.size }}</p>
+            <p>{{ item.quantity }}x {{ item.size }}</p>
           </div>
         </div>
       </div>

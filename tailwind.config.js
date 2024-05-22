@@ -15,6 +15,7 @@ export default {
         "card": '#EFE9DE',
         "price": '#3D7627',
         "mainColor": '#001427',
+        "redDelete": '#CF4252',
       }
     },
   },
