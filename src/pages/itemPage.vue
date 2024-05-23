@@ -35,7 +35,6 @@ const drinks = menuStore.menuItems.find(category => category.category === "Drink
 
 const totalItemPrice = ref(0);
 const totalDrinkPrice = ref(0);
-const selectedItems: Ref<cartItem[]> = ref([]);
 
 const handleItemPriceUpdate = ({ price, count }) => {
   totalItemPrice.value = price * count;
@@ -53,20 +52,20 @@ const totalPrice = computed(() => {
   return totalItemPrice.value + totalDrinkPrice.value;
 });
 
-const currentSelection = ref(null);
 
+const currentSelection = ref(null);
+const toggledDrinks: Ref<cartItem[]> = ref([]);
 
 const addItemToSelection = (itemDetails) => {
   currentSelection.value = itemDetails;
 };
 
 const addDrinkToSelection = (drinkDetails) => {
-  console.log('Adding drink to selection:', drinkDetails);
-  const existingDrink = selectedItems.value.find(drink => drink.id === drinkDetails.id);
-  if (existingDrink) {
-    existingDrink.quantity += 1;
+  const index = toggledDrinks.value.findIndex(d => d.id === drinkDetails.id);
+  if (index === -1) {
+    toggledDrinks.value.push(drinkDetails);
   } else {
-    selectedItems.value.push(drinkDetails);
+    toggledDrinks.value.splice(index, 1);
   }
 };
 
@@ -74,6 +73,7 @@ const addItemToCart = () => {
   if (currentSelection.value) {
     cartStore.addToCart({ ...currentSelection.value });
   }
+  toggledDrinks.value.forEach(drink => cartStore.addToCart(drink));
   bottomSheet.open(CartBottomSheet);
 };
 </script>

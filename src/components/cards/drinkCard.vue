@@ -7,7 +7,7 @@ const props = defineProps<{
 }>();
 
 const isClicked = ref(false);
-const emit = defineEmits(['updateDrinkPrice', 'drinkDetails']);
+const emit = defineEmits(['updateDrinkPrice', 'selectDrink']);
 
 const toggleIcon = () => {
   isClicked.value = !isClicked.value;
