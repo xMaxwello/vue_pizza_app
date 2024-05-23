@@ -31,8 +31,7 @@ const removeItem = (id, size) => {
   cartStore.removeItem(id, size);
 };
 
-///TODO: Button grau anzeigen lassen wenn nichts im cartStore gespeichert wird
-///TODO: Items werden direkt in den Cart hinzugefügt, auch bei auswahl der Size und beim switchen
+
 </script>
 
 <template>

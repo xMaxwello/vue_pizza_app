@@ -53,14 +53,11 @@ const totalPrice = computed(() => {
   return totalItemPrice.value + totalDrinkPrice.value;
 });
 
+const currentSelection = ref(null);
+
+
 const addItemToSelection = (itemDetails) => {
-  console.log('Adding item to selection:', itemDetails);
-  const existingItem = selectedItems.value.find(item => item.id === itemDetails.id && item.size === itemDetails.size);
-  if (existingItem) {
-    existingItem.quantity += itemDetails.quantity;
-  } else {
-    selectedItems.value.push(itemDetails);
-  }
+  currentSelection.value = itemDetails;
 };
 
 const addDrinkToSelection = (drinkDetails) => {
@@ -74,10 +71,9 @@ const addDrinkToSelection = (drinkDetails) => {
 };
 
 const addItemToCart = () => {
-  console.log('Items being added to cart:', selectedItems.value);
-  selectedItems.value.forEach(item => cartStore.addToCart(item));
-  console.log('Cart after adding:', JSON.stringify(cartStore.items));
-  selectedItems.value = [];
+  if (currentSelection.value) {
+    cartStore.addToCart({ ...currentSelection.value });
+  }
   bottomSheet.open(CartBottomSheet);
 };
 </script>
