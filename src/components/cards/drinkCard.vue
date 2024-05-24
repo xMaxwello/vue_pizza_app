@@ -4,6 +4,7 @@ import {defineProps, ref, watch} from "vue";
 
 const props = defineProps<{
   item: MenuItem;
+  resetSignal: Boolean
 }>();
 
 const isClicked = ref(false);
@@ -17,9 +18,15 @@ const toggleIcon = () => {
   }
 };
 
+watch(() => props.resetSignal, () => {
+  isClicked.value = false;
+}, { immediate: true });
+
+
+
 const emitDrinkDetails = () => {
   const item = props.item;
-  if (item && item.price) {
+  if (isClicked.value && item && item.price) {
     const price = parseFloat(item.price.replace(',', '.'));
     console.log('Emitting drink details for:', item.name);
     emit('selectDrink', {

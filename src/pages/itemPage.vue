@@ -55,6 +55,7 @@ const totalPrice = computed(() => {
 
 const currentSelection = ref(null);
 const toggledDrinks: Ref<cartItem[]> = ref([]);
+const resetDrinks = ref(false);
 
 const addItemToSelection = (itemDetails) => {
   currentSelection.value = itemDetails;
@@ -63,7 +64,7 @@ const addItemToSelection = (itemDetails) => {
 const addDrinkToSelection = (drinkDetails) => {
   const index = toggledDrinks.value.findIndex(d => d.id === drinkDetails.id);
   if (index === -1) {
-    toggledDrinks.value.push(drinkDetails);
+    toggledDrinks.value.push({...drinkDetails, quantity: 1});
   } else {
     toggledDrinks.value.splice(index, 1);
   }
@@ -71,9 +72,11 @@ const addDrinkToSelection = (drinkDetails) => {
 
 const addItemToCart = () => {
   if (currentSelection.value) {
-    cartStore.addToCart({ ...currentSelection.value });
+    cartStore.addToCart({...currentSelection.value});
   }
   toggledDrinks.value.forEach(drink => cartStore.addToCart(drink));
+  toggledDrinks.value = [];
+  resetDrinks.value = !resetDrinks.value;
   bottomSheet.open(CartBottomSheet);
 };
 </script>
@@ -96,7 +99,7 @@ const addItemToCart = () => {
     </div>
     <h2 class="mt-5 text-mainColor text-xs font-semibold">Getränke</h2>
     <div class="my-4 flex space-x-3 overflow-y-auto scrollbar-none">
-      <drinkCard v-for="item in drinks" :key="item.id" :item="item" @updateDrinkPrice="handleDrinkPriceUpdate" @selectDrink="addDrinkToSelection" class="flex-none"/>
+      <drinkCard v-for="item in drinks" :key="item.id" :item="item" :resetSignal="resetDrinks" @updateDrinkPrice="handleDrinkPriceUpdate" @selectDrink="addDrinkToSelection" class="flex-none"/>
     </div>
     <div class="mt-4 border-b-2 border-b-gray-400 border-opacity-50"></div>
     <strong class="mt-4 text-mainColor text-xs font-semibold text-right leading-[18px]">Gesamt (inkl. MwSt.): {{ totalPrice.toFixed(2) }}€</strong>
