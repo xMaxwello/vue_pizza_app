@@ -32,9 +32,15 @@ export const useCartStore = defineStore('cart', {
             this.items = [];
         },
         reorder(items: cartItem[]) {
-            items.forEach(item => {
-                this.addToCart(item);
+            items.forEach(reorderItem => {
+                const existingItem = this.items.find(item => item.id === reorderItem.id && item.size === reorderItem.size);
+                if (existingItem) {
+                    existingItem.quantity += reorderItem.quantity;
+                } else {
+                    const newReorder = {...reorderItem};
+                    this.addToCart(newReorder);
+                }
             });
-        },
+        }
     }
 });
