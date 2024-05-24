@@ -55,26 +55,35 @@ const removeItem = (id, size) => {
           </div>
         </div>
       </div>
-    </div>
 
-    <div>
-      <div class="flex justify-between">
-        <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">Gesamtsumme</strong>
-        <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">{{ cartStore.subtotal.toFixed(2) }}€</strong>
+
+      <div v-if="cartStore.items.length > 0" class="pt-8">
+        <div class="flex justify-between">
+          <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">Gesamtsumme</strong>
+          <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">{{ cartStore.subtotal.toFixed(2) }}€</strong>
+        </div>
+        <div class="flex justify-between">
+          <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">MwSt.</strong>
+          <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">{{ tax.toFixed(2) }}€</strong>
+        </div>
+        <div class="mt-4 border-b-2 border-b-gray-400 border-opacity-70"></div>
+        <div class="flex justify-between">
+          <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">Total</strong>
+          <strong class="mt-4 text-mainColor text-base font-semibold text-right leading-[18px]">{{ cartStore.total.toFixed(2) }}€</strong>
+        </div>
       </div>
-      <div class="flex justify-between">
-        <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">MwSt.</strong>
-        <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">{{ tax.toFixed(2) }}€</strong>
-      </div>
-      <div class="mt-4 border-b-2 border-b-gray-400 border-opacity-70"></div>
-      <div class="flex justify-between">
-        <strong class="mt-4 text-mainColor text-opacity-50 text-xs font-semibold text-right leading-[18px]">Total</strong>
-        <strong class="mt-4 text-mainColor text-base font-semibold text-right leading-[18px]">{{ cartStore.total.toFixed(2) }}€</strong>
+      <div v-else class="flex items-center justify-center h-full">
+        <strong class="text-mainColor text-lg text-center font-semibold">Der Warenkorb <br/> ist leer</strong>
       </div>
     </div>
 
     <div class="w-full mb-10">
+      <div v-if="cartStore.items.length > 0">
       <button @click="orderNow" class="my-4 w-full h-[40px] bg-price rounded-[20px] text-white text-sm leading-[21px] font-semibold">JETZT BESTELLEN</button>
+      </div>
+      <div v-else>
+        <button class="my-4 w-full h-[40px] bg-gray-500 rounded-[20px] text-white text-sm leading-[21px] font-semibold">JETZT BESTELLEN</button>
+      </div>
       <button @click="close" class="w-full h-[40px] text-mainColor text-opacity-50 rounded-[20px] text-sm leading-[21px] font-semibold">ABBRECHEN</button>
     </div>
 
