@@ -1,21 +1,5 @@
 import { defineStore } from 'pinia';
 
-interface OrderItem {
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
-    size: string;
-    image: string;
-}
-
-interface Order {
-    id: number;
-    items: OrderItem[];
-    total: number;
-    timestamp: Date;
-}
-
 export const useOrderStore = defineStore('order', {
     state: () => ({
         orders: [] as Order[],

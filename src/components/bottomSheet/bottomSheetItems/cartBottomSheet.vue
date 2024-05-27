@@ -30,8 +30,6 @@ const tax = computed(() => {
 const removeItem = (id, size) => {
   cartStore.removeItem(id, size);
 };
-
-
 </script>
 
 <template>
@@ -76,6 +74,7 @@ const removeItem = (id, size) => {
         <strong class="text-mainColor text-lg text-center font-semibold">Der Warenkorb <br/> ist leer</strong>
       </div>
     </div>
+
 
     <div class="w-full mb-10">
       <div v-if="cartStore.items.length > 0">

@@ -3,11 +3,11 @@ import { useRouter } from 'vue-router';
 import { useBottomSheetStore } from '../../../stores/bottomSheetStore';
 
 const router = useRouter();
-const bottomSheetStore = useBottomSheetStore();
+const bottomSheet = useBottomSheetStore();
 
 const navigateHome = () => {
   router.push('/');
-  bottomSheetStore.close();
+  bottomSheet.close();
 };
 </script>
 
@@ -31,5 +31,3 @@ const navigateHome = () => {
     </div>
   </div>
 </template>
-
-

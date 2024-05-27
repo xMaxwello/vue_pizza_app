@@ -6,7 +6,7 @@ import CartBottomSheet from "../bottomSheet/bottomSheetItems/cartBottomSheet.vue
 
 
 const orderStore = useOrderStore();
-const {reorder} = useCartStore();
+const { reorder } = useCartStore();
 const bottomSheet = useBottomSheetStore();
 
 

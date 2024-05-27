@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMenuStore } from '../stores/menuStore';
-import mainCard from "../components/cards/mainCard.vue";
-import smallCard from "../components/cards/smallCard.vue";
+import mainCard from "../components/cards/homeMainCard.vue";
+import smallCard from "../components/cards/homeSmallCard.vue";
 
 const menuStore = useMenuStore();
 const pizza = menuStore.menuItems.find(category => category.category === "Pizza")?.items;

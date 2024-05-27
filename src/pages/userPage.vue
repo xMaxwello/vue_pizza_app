@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import orderCard from "../components/cards/orderCard.vue";
 import userComponent from "../components/userComponent.vue";
-
-
 </script>
 
 <template>

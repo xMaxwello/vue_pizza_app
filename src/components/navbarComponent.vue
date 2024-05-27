@@ -13,16 +13,16 @@ const navigateToUser = () => router.push({ name: 'user' });
 const route = useRoute();
 const isHomePage = computed(() => route.name === 'home');
 
-const store = useBottomSheetStore();
+const bottomSheet = useBottomSheetStore();
 
 const cartStore = useCartStore();
 
-const totalQuantity = computed(() => {
+const totalItemQuantity = computed(() => {
   return cartStore.items.reduce((acc, item) => acc + item.quantity, 0);
 });
 
 function openCart() {
-  store.open(CartBottomSheet);
+  bottomSheet.open(CartBottomSheet);
 }
 </script>
 
@@ -42,8 +42,8 @@ function openCart() {
       <div class="relative">
         <div class="absolute top-0 right-0 transform translate-x-[3px] -translate-y-[5px]
                 flex justify-center items-center h-[14px] w-[14px] bg-redDelete rounded-full text-white text-center text-[10px]">
-          <div v-if="totalQuantity > 0">
-            {{ totalQuantity }}
+          <div v-if="totalItemQuantity > 0">
+            {{ totalItemQuantity }}
           </div>
           <div v-else>
             <svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">

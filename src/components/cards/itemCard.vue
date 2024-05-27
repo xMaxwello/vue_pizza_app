@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, defineProps, ref, watch} from 'vue';
+import {computed, ref, watch} from 'vue';
 import {MenuItem, Size} from "../../objects/foodItem.ts";
 import router from "../../router";
 
@@ -11,7 +11,6 @@ const props = defineProps<{
 const currentIndex = ref(props.initialIndex);
 const currentItem = computed(() => props.items[currentIndex.value]);
 const emit = defineEmits(['updateItemPrice', 'selectItem']);
-
 
 const isAtStart = computed(() => currentIndex.value === 0);
 const isAtEnd = computed(() => currentIndex.value === props.items.length - 1);
@@ -31,11 +30,11 @@ watch(currentItem, (newItem) => {
 
 const counter = ref(1);
 
-const increment = () => {
+const incrementQuantity = () => {
   if (counter.value < 10) counter.value++;
 };
 
-const decrement = () => {
+const decrementQuantity = () => {
   if (counter.value > 1) counter.value--;
 };
 
@@ -54,7 +53,6 @@ watch([currentItem, selectedSize, counter], () => {
     if (basePrice) {
       const numericPrice = parseFloat(basePrice.replace(',', '.'));
       emit('updateItemPrice', { price: numericPrice, count: counter.value });
-      console.log('Emitting price:', numericPrice, 'Count:', counter.value);
     }
   }
 }, { immediate: true });
@@ -63,7 +61,6 @@ const emitItemDetails = () => {
   const item = currentItem.value;
   if (item) {
     const price = item.prices ? parseFloat(item.prices[selectedSize.value].replace(',', '.')) : parseFloat(item.price.replace(',', '.'));
-    console.log('Emitting item details for:', item.name);
     emit('selectItem', {
       id: item.id,
       name: item.name,
@@ -74,7 +71,6 @@ const emitItemDetails = () => {
     });
   }
 };
-
 watch([currentItem, selectedSize, counter], emitItemDetails, { immediate: true });
 </script>
 
@@ -100,7 +96,7 @@ watch([currentItem, selectedSize, counter], emitItemDetails, { immediate: true }
     </div>
     <strong class="mt-3 text-price text-center leading-6">{{ displayPrice }}€</strong>
     <div class="mt-3 flex space-x-4 justify-center items-center">
-      <button @click="decrement">
+      <button @click="decrementQuantity">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.5">
             <path d="M19 12.998H5V10.998H19V12.998Z" fill="#001427"/>
@@ -110,7 +106,7 @@ watch([currentItem, selectedSize, counter], emitItemDetails, { immediate: true }
       <div class="w-[30px] h-[30px] flex justify-center items-center outline-none border-2 border-gray-400 rounded-[20px]">
         <strong class="text-mainColor text-sm font-semibold text-center leading-[21px]">{{ counter }}</strong>
       </div>
-      <button @click="increment">
+      <button @click="incrementQuantity">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.5">
             <path d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.99799H13V10.998H19V12.998Z" fill="#001427"/>

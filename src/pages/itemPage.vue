@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {computed, ref, defineProps, Ref} from 'vue';
+import {computed, ref, Ref} from 'vue';
 import itemCard from "../components/cards/itemCard.vue";
 import drinkCard from "../components/cards/drinkCard.vue";
 import { useMenuStore } from "../stores/menuStore.ts";
 import { useRoute, useRouter } from "vue-router";
 import { useBottomSheetStore } from "../stores/bottomSheetStore.ts";
 import { useCartStore } from "../stores/cartStore.ts";
-import {cartItem} from "../data/cartItem.ts";
+import {cartItem} from "../objects/cartItem.ts";
 import CartBottomSheet from "../components/bottomSheet/bottomSheetItems/cartBottomSheet.vue";
 
 const route = useRoute();
@@ -53,12 +53,12 @@ const totalPrice = computed(() => {
 });
 
 
-const currentSelection = ref(null);
+const currentItemSelection = ref(null);
 const toggledDrinks: Ref<cartItem[]> = ref([]);
-const resetDrinks = ref(false);
+const resetDrinksButton = ref(false);
 
 const addItemToSelection = (itemDetails) => {
-  currentSelection.value = itemDetails;
+  currentItemSelection.value = itemDetails;
 };
 
 const addDrinkToSelection = (drinkDetails) => {
@@ -71,12 +71,12 @@ const addDrinkToSelection = (drinkDetails) => {
 };
 
 const addItemToCart = () => {
-  if (currentSelection.value) {
-    cartStore.addToCart({...currentSelection.value});
+  if (currentItemSelection.value) {
+    cartStore.addToCart({...currentItemSelection.value});
   }
   toggledDrinks.value.forEach(drink => cartStore.addToCart(drink));
   toggledDrinks.value = [];
-  resetDrinks.value = !resetDrinks.value;
+  resetDrinksButton.value = !resetDrinksButton.value;
   bottomSheet.open(CartBottomSheet);
 };
 </script>
@@ -99,7 +99,7 @@ const addItemToCart = () => {
     </div>
     <h2 class="mt-5 text-mainColor text-xs font-semibold">Getränke</h2>
     <div class="my-4 flex space-x-3 overflow-y-auto scrollbar-none">
-      <drinkCard v-for="item in drinks" :key="item.id" :item="item" :resetSignal="resetDrinks" @updateDrinkPrice="handleDrinkPriceUpdate" @selectDrink="addDrinkToSelection" class="flex-none"/>
+      <drinkCard v-for="item in drinks" :key="item.id" :item="item" :resetSignal="resetDrinksButton" @updateDrinkPrice="handleDrinkPriceUpdate" @selectDrink="addDrinkToSelection" class="flex-none"/>
     </div>
     <div class="mt-4 border-b-2 border-b-gray-400 border-opacity-50"></div>
     <strong class="mt-4 text-mainColor text-xs font-semibold text-right leading-[18px]">Gesamt (inkl. MwSt.): {{ totalPrice.toFixed(2) }}€</strong>
